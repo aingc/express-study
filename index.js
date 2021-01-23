@@ -1,19 +1,12 @@
 const express = require('express');
 const path = require('path');
+const logger = require('./middleware/logger');
 const members = require('./Members');
 
 const app = express();
 
-// to create middleware, it takes, req, res, and next. Always call next last
-// so you can move to the next middleware function that's in the stack
-const logger = (req, res, next) => {
-  // req gives access to certain parts fo the url
-  console.log(`${req.protocol}://${req.get('host')}${req.originalUrl}`);
-  next();
-};
-
 // Init middleware
-app.use(logger);
+// app.use(logger);
 
 // create a route, 2nd param is a func
 // app.get('/', (req, res) => {
