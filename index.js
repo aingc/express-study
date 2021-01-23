@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const logger = require('./middleware/logger');
-const members = require('./Members');
 
 const app = express();
 
@@ -19,28 +18,12 @@ const app = express();
 //   //res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
-// Gets all members
-app.get('/api/members', (req, res) => {
-  // when I want to return JSON, also don't need to stringify because json() will take
-  // care of it
-  res.json(members);
-});
-
-// Get Single Member, `:id` is a url param, and use a req to grab the :id param
-app.get('/api/members/:id', (req, res) => {
-  const found = members.some((member) => member.id === parseInt(req.params.id));
-
-  if (found) {
-    // Normally I'd use filter, but since it's a "single" member, array.find() would be great here
-    res.json(members.find((member) => member.id === parseInt(req.params.id)));
-  } else {
-    res.status(400).json({ msg: `No member with id of ${req.params.id}` });
-  }
-});
-
 // Set static folder
 // use is a function we use for when we want to include middleware
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Members API Routes
+app.use('/api/members', require('./routes/api/members'));
 
 // check for PORT env var and use 5000 otherwise
 const PORT = process.env.PORT || 5000;
