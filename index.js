@@ -26,6 +26,12 @@ app.get('/api/members', (req, res) => {
   res.json(members);
 });
 
+// Get Single Member, `:id` is a url param, and use a req to grab the :id param
+app.get('/api/members/:id', (req, res) => {
+  // Normally I'd use filter, but since it's a "single" member, array.find() would be great here
+  res.json(members.find((member) => member.id === parseInt(req.params.id)));
+});
+
 // Set static folder
 // use is a function we use for when we want to include middleware
 app.use(express.static(path.join(__dirname, 'public')));
