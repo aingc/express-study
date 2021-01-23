@@ -18,6 +18,10 @@ const app = express();
 //   //res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
+// Middleware to parse body
+app.use(express.json()); // handle raw JSON
+app.use(express.urlencoded({ extended: false })); // want to handle form submissions
+
 // Set static folder
 // use is a function we use for when we want to include middleware
 app.use(express.static(path.join(__dirname, 'public')));
